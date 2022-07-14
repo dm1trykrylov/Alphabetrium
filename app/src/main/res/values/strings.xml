@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Alphabetrium</string>
+    <string name="greeting">Explore\n Rick and Morty World</string>
 </resources>

@@ -1,13 +1,17 @@
 package com.thegarage.alphabetrium
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.SearchView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.beust.klaxon.Klaxon
 import okhttp3.*
-import java.io.IOException;
+import java.io.IOException
 
 class SearchResultsActivity : AppCompatActivity() {
     private val client = OkHttpClient()
-    val baseRMurl = "https://rickandmortyapi.com/api/character/?name="
+    private val baseURL = "https://rickandmortyapi.com/api/character/?name="
+    lateinit var requestName: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,23 +19,20 @@ class SearchResultsActivity : AppCompatActivity() {
 
         val name = intent?.extras?.getString(MainActivity.NAME).toString()
 
-        run(baseRMurl + name)
-        /*
-        make GET request to RickAndMorty API
-        and
-        parse JSON
-         */
+        val response = run(baseURL + name)
 
+        val result = Klaxon().parse<RMRequest>(response)
+
+        requestName = findViewById(R.id.requestName)
+
+        requestName.text = result!!.info.count.toString()
     }
 
-    fun run(url: String) {
-        val request = Request.Builder()
+    @Throws(IOException::class)
+    fun run(url: String): String {
+        val request: Request = Request.Builder()
             .url(url)
             .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {}
-            override fun onResponse(call: Call, response: Response) = println(response.body()?.string())
-        })
+        client.newCall(request).execute().use { response -> return response.body()!!.string() }
     }
 }

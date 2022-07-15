@@ -6,4 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".SearchResultsActivity">
 
+    <TextView
+        android:id="@+id/requestName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/requestName"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/characterList"
+        android:layout_width="409dp"
+        android:layout_height="691dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/requestName" />
 </androidx.constraintlayout.widget.ConstraintLayout>
